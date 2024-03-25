@@ -55,5 +55,6 @@
     "develop": "tsc -p tsconfig.server.json -w",
     "build": "tsc -p tsconfig.server.json"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "private": false
 }
