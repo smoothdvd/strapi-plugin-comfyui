@@ -1,0 +1,5 @@
+{
+  "plugin.name": "ComfyUI",
+  "plugin.pages.App.title": "ComfyUI",
+  "plugin.pages.HomePage.subTitle": "管理 ComfyUI 配置。"
+}
