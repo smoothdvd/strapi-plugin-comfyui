@@ -55,6 +55,7 @@
     "develop": "tsc -p tsconfig.server.json -w",
     "build": "tsc -p tsconfig.server.json"
   },
+  "repository": "https://github.com/smoothdvd/strapi-plugin-comfyui.git",
   "license": "MIT",
   "private": false
 }
