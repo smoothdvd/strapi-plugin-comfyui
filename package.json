@@ -1,6 +1,6 @@
 {
   "name": "@alexgao/strapi-plugin-comfyui",
-  "version": "0.0.1",
+  "version": "0.1.2",
   "description": "ComfyUI API for Strapi.",
   "strapi": {
     "name": "strapi-plugin-comfyui",
@@ -53,7 +53,8 @@
   },
   "scripts": {
     "develop": "tsc -p tsconfig.server.json -w",
-    "build": "tsc -p tsconfig.server.json"
+    "build": "tsc -p tsconfig.server.json",
+    "pub": "pnpm build;pnpm publish --no-git-checks --access public"
   },
   "repository": "https://github.com/smoothdvd/strapi-plugin-comfyui.git",
   "license": "MIT",

@@ -3,18 +3,22 @@ import axios from 'axios';
 
 export default ({ strapi }: { strapi: Strapi }) => ({
   async index(ctx) {
-    ctx.body = await strapi.plugin('strapi-plugin-comfyui').service('comfyuiWorkflow').getIndex();
+    const workflows = await strapi
+      .plugin('strapi-plugin-comfyui')
+      .service('comfyuiWorkflow')
+      .getIndex();
+    ctx.body = workflows;
   },
 
   async createQueue(ctx) {
     // get params from request body
-    const { positive_prompts, workflow } = ctx.request.body;
+    const { positive_prompts, workflow, images = [] } = ctx.request.body;
 
     // call create comfyui queue service
     ctx.body = await strapi
       .plugin('strapi-plugin-comfyui')
       .service('comfyuiWorkflow')
-      .createQueue({ positive_prompts, workflow });
+      .createQueue({ positive_prompts, workflow, images });
   },
 
   async history(ctx) {

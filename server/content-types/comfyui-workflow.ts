@@ -42,6 +42,12 @@ export default {
       required: true,
       configurable: false,
     },
+    allowInputImage: {
+      type: 'boolean',
+      default: false,
+      required: true,
+      configurable: false,
+    },
     runs: {
       type: 'integer',
       default: 0,
