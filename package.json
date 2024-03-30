@@ -16,7 +16,7 @@
   "devDependencies": {
     "@strapi/eslint-config": "^0.2.0",
     "@strapi/typescript-utils": "^4.6.0",
-    "@types/react": "^17.0.53",
+    "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.28",
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.26",
@@ -30,7 +30,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^5.3.4",
     "styled-components": "^5.3.6",
-    "typescript": "5.0.4"
+    "typescript": "5.4.3"
   },
   "peerDependencies": {
     "@strapi/strapi": "^4.0.0",
@@ -40,11 +40,11 @@
     "styled-components": "^5.2.1"
   },
   "author": {
-    "name": "A Strapi developer"
+    "name": "breakwall"
   },
   "maintainers": [
     {
-      "name": "A Strapi developer"
+      "name": "breakwall"
     }
   ],
   "engines": {
@@ -54,7 +54,7 @@
   "scripts": {
     "develop": "tsc -p tsconfig.server.json -w",
     "build": "tsc -p tsconfig.server.json",
-    "pub": "pnpm build;pnpm publish --no-git-checks --access public"
+    "pub": "pnpm build;pnpm publish --access public"
   },
   "repository": "https://github.com/smoothdvd/strapi-plugin-comfyui.git",
   "license": "MIT",
