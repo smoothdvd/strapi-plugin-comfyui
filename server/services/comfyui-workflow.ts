@@ -2,7 +2,7 @@ import { Strapi } from '@strapi/strapi';
 import axios from 'axios';
 import crypto from 'crypto';
 
-function getRandomNumber(min, max) {
+function getRandomNumber(min: number, max: number) {
   const range = max - min + 1;
   const randomBytes = crypto.randomBytes(Math.ceil(Math.log2(range) / 8));
 
@@ -32,7 +32,15 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     return entries;
   },
 
-  async createQueue({ positive_prompts, workflow, images }) {
+  async createQueue({
+    positive_prompts,
+    workflow,
+    images,
+  }: {
+    positive_prompts: string;
+    workflow: Record<string, any>;
+    images: string[];
+  }) {
     strapi.log.info('send workflow queue to comfyui server');
 
     let newWorkflow: Record<string, any> = workflow;
@@ -110,7 +118,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     }
   },
 
-  async getHistory({ prompt_id }) {
+  async getHistory({ prompt_id }: { prompt_id: string }) {
     // get comfyui config
     const config = strapi.config.get<{ comfyui: { host: string; port: number } }>(
       'plugin.strapi-plugin-comfyui'
