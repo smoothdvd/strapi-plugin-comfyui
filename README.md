@@ -1,5 +1,7 @@
 # Strapi plugin for ComfyUI
 
+![NPM Version](https://img.shields.io/npm/v/%40alexgao%2Fstrapi-plugin-comfyui)
+
 ## Installation
 
 To install the Strapi plugin for ComfyUI, follow these steps:
