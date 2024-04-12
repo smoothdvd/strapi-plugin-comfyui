@@ -55,9 +55,38 @@ export default ({ strapi }: { strapi: Strapi }) => ({
 
         // if element has class_type KSampler,
         if (element.hasOwnProperty('class_type')) {
-          if (element.class_type === 'KSampler') {
+          if (element.class_type === 'KSampler' ) {
             // change seed value in inputs
             element['inputs']['seed'] = seed;
+
+            // get key of the positive prompts in the inputs
+            if (element['inputs']['positive']) {
+              const positivePromptKey = element['inputs']['positive'][0];
+
+              // if positive prompt key is found, check if the element has inputs text key
+              if (positivePromptKey) {
+                if (newWorkflow[positivePromptKey]['inputs'].hasOwnProperty('text')) {
+                  // change the value of the text with the positive prompts value
+                  newWorkflow[positivePromptKey]['inputs']['text'] = positive_prompts;
+                } else {
+                  // find next element which has inputs text key
+                  const nextPositivePromptKey = (newWorkflow[positivePromptKey]['inputs'][
+                    'positive'
+                  ] || newWorkflow[positivePromptKey]['inputs']['base_positive'])[0];
+                  if (nextPositivePromptKey) {
+                    if (newWorkflow[nextPositivePromptKey]['inputs'].hasOwnProperty('text')) {
+                      // change the value of the text with the positive prompts value
+                      newWorkflow[nextPositivePromptKey]['inputs']['text'] = positive_prompts;
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          if (element.class_type === 'KSamplerAdvanced' ) {
+            // change seed value in inputs
+            element['inputs']['noise_seed'] = getRandomNumber(10 ** 14, 10 ** 15 - 1);
 
             // get key of the positive prompts in the inputs
             if (element['inputs']['positive']) {
