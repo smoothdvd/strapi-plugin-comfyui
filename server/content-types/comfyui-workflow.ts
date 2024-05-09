@@ -54,6 +54,11 @@ export default {
       min: 0,
       required: true,
       configurable: false,
+    },
+    template: {
+      type: 'json',
+      required: false,
+      configurable: false,
     }
   },
 };
