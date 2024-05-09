@@ -23,6 +23,12 @@ export default ({ strapi }: { strapi: Strapi }) => ({
         'plugin::strapi-plugin-comfyui.comfyui-workflow',
         {
           populate: { preview: true },
+          filters: {
+            publishedAt: {
+              $notNull: true,
+            },
+          },
+          sort: 'id:asc',
         }
       );
     } catch (error) {
@@ -55,7 +61,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
 
         // if element has class_type KSampler,
         if (element.hasOwnProperty('class_type')) {
-          if (element.class_type === 'KSampler' ) {
+          if (element.class_type === 'KSampler') {
             // change seed value in inputs
             element['inputs']['seed'] = seed;
 
@@ -84,7 +90,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
             }
           }
 
-          if (element.class_type === 'KSamplerAdvanced' ) {
+          if (element.class_type === 'KSamplerAdvanced') {
             // change seed value in inputs
             element['inputs']['noise_seed'] = getRandomNumber(10 ** 14, 10 ** 15 - 1);
 
