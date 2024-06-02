@@ -21,6 +21,21 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       .createQueue({ positive_prompts, workflow, images });
   },
 
+  async createQueueV2(ctx) {
+    // get params from request body
+    const { workflow_id: workflowId, template } = ctx.request.body;
+
+    // call create comfyui queue service
+    try {
+      ctx.body = await strapi
+      .plugin('strapi-plugin-comfyui')
+      .service('comfyuiWorkflow')
+      .createQueueV2({ workflowId, template });
+    } catch (error) {
+      return error;
+    }
+  },
+
   async history(ctx) {
     const { prompt_id } = ctx.params;
     console.log('prompt_id', prompt_id);

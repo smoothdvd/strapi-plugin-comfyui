@@ -12,6 +12,11 @@ export default {
       handler: 'comfyuiWorkflow.createQueue',
     },
     {
+      method: 'POST',
+      path: '/comfyui/queuev2',
+      handler: 'comfyuiWorkflow.createQueueV2',
+    },
+    {
       method: 'GET',
       path: '/comfyui/history/:prompt_id',
       handler: 'comfyuiWorkflow.history',

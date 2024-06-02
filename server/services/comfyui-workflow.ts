@@ -153,6 +153,72 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     }
   },
 
+  // enhance version of create comyfui queue
+  async createQueueV2({
+    workflowId,
+    template,
+  }: {
+    workflowId: number;
+    template: Record<string, any>;
+  }) {
+    try {
+      // Get workflow by workflowId
+      const workflow = await strapi.entityService!.findOne(
+        'plugin::strapi-plugin-comfyui.comfyui-workflow',
+        workflowId
+      );
+
+      if (!workflow) {
+        return { message: 'Workflow not found' };
+      }
+
+      // iterate through the template and update the workflow
+      template.inputs.nodes.forEach((node: Record<string, any>) => {
+        const oldNode = workflow.workflow[node.nodeId];
+        const newNode = {
+          ...oldNode,
+          inputs: {
+            ...oldNode.inputs,
+            [node.fieldName]: node.fieldValue,
+          },
+        };
+        workflow.workflow[node.nodeId] = newNode;
+      });
+
+      // set random seed
+      const globalSeed = getRandomNumber(10 ** 14, 10 ** 15 - 1);
+
+      // iterate through the workflow and update the seed
+      workflow.template.seeds.nodes.forEach((node: Record<string, any>) => {
+        const oldNode = workflow.workflow[node.nodeId];
+        const newNode = {
+          ...oldNode,
+          inputs: {
+            ...oldNode.inputs,
+            [node.fieldName]:
+              node.type === 'global' ? globalSeed : getRandomNumber(10 ** 14, 10 ** 15 - 1),
+          },
+        };
+        workflow.workflow[node.nodeId] = newNode;
+      });
+
+      // get comfyui config
+      const config = strapi.config.get<{ comfyui: { host: string; port: number } }>(
+        'plugin.strapi-plugin-comfyui'
+      );
+
+      // send prompts and workflow to comfyui server
+      return await axios.post(
+        `http://${config.comfyui.host}:${config.comfyui.port}/prompt`,
+        {
+          prompt: workflow,
+        }
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
+
   async getHistory({ prompt_id }: { prompt_id: string }) {
     // get comfyui config
     const config = strapi.config.get<{ comfyui: { host: string; port: number } }>(
