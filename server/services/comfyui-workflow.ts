@@ -161,6 +161,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     workflowId: number;
     template: Record<string, any>;
   }) {
+    let newWorkflow;
     try {
       // Get workflow by workflowId
       const workflow = await strapi.entityService!.findOne(
@@ -182,6 +183,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
             [node.fieldName]: node.fieldValue,
           },
         };
+        console.log(JSON.stringify(newNode));
         workflow.workflow[node.nodeId] = newNode;
       });
 
@@ -202,20 +204,40 @@ export default ({ strapi }: { strapi: Strapi }) => ({
         workflow.workflow[node.nodeId] = newNode;
       });
 
+      newWorkflow = workflow.workflow;
+
       // get comfyui config
       const config = strapi.config.get<{ comfyui: { host: string; port: number } }>(
         'plugin.strapi-plugin-comfyui'
       );
 
       // send prompts and workflow to comfyui server
-      return await axios.post(
+      // return await axios.post(
+      //   `http://${config.comfyui.host}:${config.comfyui.port}/prompt`,
+      //   {
+      //     prompt: workflow.workflow,
+      //   }
+      // );
+    } catch (error) {
+      return error;
+    }
+
+    try {
+      // get comfyui config
+      const config = strapi.config.get<{ comfyui: { host: string; port: number } }>(
+        'plugin.strapi-plugin-comfyui'
+      );
+
+      const response = await axios.post(
         `http://${config.comfyui.host}:${config.comfyui.port}/prompt`,
         {
-          prompt: workflow,
+          prompt: newWorkflow,
         }
       );
+      console.log(response.data);
+      return response.data;
     } catch (error) {
-      throw error;
+      return error;
     }
   },
 
