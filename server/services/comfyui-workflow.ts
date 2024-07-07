@@ -16,17 +16,19 @@ function getRandomNumber(min: number, max: number) {
 }
 
 export default ({ strapi }: { strapi: Strapi }) => ({
-  async getIndex() {
+  async getIndex({ category }: { category?: string }) {
     let entries;
     try {
       entries = await strapi.entityService!.findMany(
         'plugin::strapi-plugin-comfyui.comfyui-workflow',
         {
           populate: { preview: true },
+          fields: ['id', 'name', 'description', 'category', 'allowInputImage', 'runs', 'template'],
           filters: {
             publishedAt: {
               $notNull: true,
             },
+            ...(category && { category }),
           },
           sort: 'id:asc',
         }

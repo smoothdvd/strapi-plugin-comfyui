@@ -59,6 +59,10 @@ export default {
       type: 'json',
       required: false,
       configurable: false,
-    }
+    },
+    category: {
+      type: 'string',
+      configurable: false,
+    },
   },
 };

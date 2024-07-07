@@ -3,10 +3,13 @@ import axios from 'axios';
 
 export default ({ strapi }: { strapi: Strapi }) => ({
   async index(ctx) {
+    // Get workflow by category or all from request query
+    const { category } = ctx.query;
+
     const workflows = await strapi
       .plugin('strapi-plugin-comfyui')
       .service('comfyuiWorkflow')
-      .getIndex();
+      .getIndex({ category });
     ctx.body = workflows;
   },
 
@@ -28,9 +31,9 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     // call create comfyui queue service
     try {
       ctx.body = await strapi
-      .plugin('strapi-plugin-comfyui')
-      .service('comfyuiWorkflow')
-      .createQueueV2({ workflowId, template });
+        .plugin('strapi-plugin-comfyui')
+        .service('comfyuiWorkflow')
+        .createQueueV2({ workflowId, template });
     } catch (error) {
       return error;
     }
